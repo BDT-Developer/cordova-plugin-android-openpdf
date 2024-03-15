@@ -8,6 +8,7 @@ still in development mode, try to handle downloading a pdf file from the we and 
 trying to resolve the below.
 
 //DOWNLOAD AND SAVE FILE ***********************************************************************
+
 function downloadAndSaveFile(dir, url, filename) {
     // Use fetch to download the file
     fetch(url)
@@ -33,8 +34,7 @@ function downloadAndSaveFile(dir, url, filename) {
         })
         .catch(error => {
             console.error("Download error: ", error);
-        });
-
+        })
     function onError(error) {
         console.error("Error: ", error);
     }
@@ -45,5 +45,6 @@ downloadAndSaveFile(cordova.file.externalCacheDirectory, 'https://www.xxxx.xx/xx
 //OPEN FILE ***********************************************************************
 
 // this works, but get error: access denined
+
 cordova.InAppBrowser.open('file:///storage/emulated/0/Android/data/xxxx/cache/xxx.pdf', '_blank', 'location=yes');
 
