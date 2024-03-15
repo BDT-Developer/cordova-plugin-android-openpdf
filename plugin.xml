@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-openpdf" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>OpenPdfPlugin</name>
+	<js-module name="openPdf" src="www/openPdf.js">
+		<clobbers target="cordova.plugins.openPdf" />
+	</js-module>
+	<platform name="android">
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="OpenPdf">
+				<param name="android-package" value="org.example.openpdf.OpenPdf" />
+			</feature>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<provider android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true" android:name="androidx.core.content.FileProvider">
+				<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
+			</provider>
+		</config-file>
+		<source-file src="src/android/OpenPdf.java" target-dir="src/org/example/openpdf" />
+		<resource-file src="src/android/res/xml/provider_paths.xml" target="res/xml/provider_paths.xml" />
+	</platform>
+</plugin>
