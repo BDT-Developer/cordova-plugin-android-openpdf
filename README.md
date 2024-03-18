@@ -1,4 +1,4 @@
-# cordova-plugin-openpdf
+# cordova-plugin-android-openpdf
 
 built to comply with: Storage Access Framework (SAF)
 to use with Android 13 permisions
