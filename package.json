@@ -5,9 +5,7 @@
   "cordova": {
     "id": "cordova-plugin-android-openpdf",
     "platforms": [
-      "android",
-      "ios",
-      "browser"
+      "android"
     ]
   },
   "scripts": {
