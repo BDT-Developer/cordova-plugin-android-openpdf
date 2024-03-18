@@ -1,0 +1,26 @@
+{
+  "name": "cordova-plugin-android-openpdf",
+  "version": "1.0.0",
+  "description": "Open pdfs in file system. Android 13+ permisions using Storage Access Framework (SAF)",
+  "cordova": {
+    "id": "cordova-plugin-android-permissions",
+    "platforms": [
+      "android",
+      "ios",
+      "browser"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BDT-Developer/cordova-plugin-android-openpdf.git"
+  },
+  "author": "BDT Developer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BDT-Developer/cordova-plugin-android-openpdf/issues"
+  },
+  "homepage": "https://github.com/BDT-Developer/cordova-plugin-android-openpdf#readme"
+}
