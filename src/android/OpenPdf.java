@@ -1,4 +1,4 @@
-package org.example.openpdf;
+package nz.bdt.cordova-plugin-android-openpdf;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
