@@ -3,75 +3,57 @@ package nz.bdt.androidopenpdf;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
-import org.json.JSONException;
 import android.content.Intent;
 import android.net.Uri;
-import androidx.core.content.FileProvider;
-import java.io.File;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 
 public class OpenPdf extends CordovaPlugin {
-    private static final int PICK_PDF_FILE = 1; // Request code for selecting a PDF file
-    private CallbackContext callbackContext; // To keep reference to the callback context
+    private static final int PICK_PDF_REQUEST_CODE = 1; // The request code
+    private CallbackContext callbackContext; // To keep a reference to the callback context
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        this.callbackContext = callbackContext;
-        if ("openPdf".equals(action)) {
-            String filePath = args.getString(0); // Get the file path from JavaScript
-            openPdf(filePath, callbackContext);
-            return true;
-        } else if ("selectAndOpenPdf".equals(action)) {
-            selectPdf();
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        if ("openPdfUsingSAF".equals(action)) {
+            this.callbackContext = callbackContext;
+            openPdfWithSAF();
             return true;
         }
         return false;
     }
 
-    private void openPdf(String filePath, CallbackContext callbackContext) {
-        try {
-            File file = new File(filePath);
-            Uri uri = FileProvider.getUriForFile(cordova.getActivity(), cordova.getActivity().getApplicationContext().getPackageName() + ".provider", file);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            cordova.getActivity().startActivity(intent);
-
-            callbackContext.success(); // PDF opened successfully
-        } catch (Exception e) {
-            callbackContext.error("Failed to open PDF: " + e.toString());
-        }
-    }
-
-    private void selectPdf() {
+    private void openPdfWithSAF() {
+        // Create an intent for opening the PDF file picker
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/pdf");
 
-        cordova.startActivityForResult(this, intent, PICK_PDF_FILE);
+        // Start the activity to select a PDF file
+        cordova.startActivityForResult(this, intent, PICK_PDF_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PDF_FILE && resultCode == android.app.Activity.RESULT_OK) {
-            if (data != null) {
-                // Get the Uri of the selected file
-                Uri uri = data.getData();
-                openPdfFromUri(uri);
-            }
-        }
-    }
 
-    private void openPdfFromUri(Uri uri) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            cordova.getActivity().startActivity(intent);
-            callbackContext.success(); // PDF opened successfully
-        } catch (Exception e) {
-            callbackContext.error("Failed to open PDF: " + e.toString());
+        if (requestCode == PICK_PDF_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                // The result data contains a URI for the selected PDF
+                Uri uri = data.getData();
+                // Open the PDF with an external viewer
+                Intent viewIntent = new Intent(Intent.ACTION_VIEW);
+                viewIntent.setDataAndType(uri, "application/pdf");
+                viewIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Grants temporary read permission
+                
+                try {
+                    cordova.getActivity().startActivity(viewIntent);
+                    callbackContext.success(); // PDF viewing was successful
+                } catch (ActivityNotFoundException e) {
+                    callbackContext.error("No application found to view PDF");
+                }
+            } else {
+                callbackContext.error("No file selected");
+            }
         }
     }
 }
