@@ -48,3 +48,22 @@ downloadAndSaveFile(cordova.file.externalCacheDirectory, 'https://www.xxxx.xx/xx
 
 cordova.InAppBrowser.open('file:///storage/emulated/0/Android/data/xxxx/cache/xxx.pdf', '_blank', 'location=yes');
 
+//OPEN SAF file ***********************************************************************
+
+
+// To open a PDF using SAF
+cordova.plugins.openPdf.openPdfUsingSAF(function() {
+    console.log("PDF opened successfully.");
+}, function(err) {
+    console.error("Error:", err);
+});
+
+
+// To open a specific downloaded file
+cordova.plugins.openPdf.openDownloadedFile(filePath, function() {
+    console.log("Downloaded file opened successfully.");
+}, function(err) {
+    console.error("Error:", err);
+});
+
+

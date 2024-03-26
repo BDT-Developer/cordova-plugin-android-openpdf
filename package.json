@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-android-openpdf",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Open pdfs in file system. Android 13+ permisions using Storage Access Framework (SAF)",
   "cordova": {
     "id": "cordova-plugin-android-openpdf",
