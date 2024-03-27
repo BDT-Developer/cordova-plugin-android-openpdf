@@ -1,4 +1,4 @@
-package nz.bdt.androidopenpdf;
+package nz.bdt.androidopenfile;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -9,7 +9,7 @@ import android.app.Activity;
 import androidx.core.content.FileProvider;
 import java.io.File;
 
-public class OpenPdf extends CordovaPlugin {
+public class OpenFile extends CordovaPlugin {
     private static final int PICK_PDF_REQUEST_CODE = 1; // Unique request code for picking PDFs
     private CallbackContext callbackContext; // To keep a reference to the callback context
 
@@ -38,7 +38,7 @@ public class OpenPdf extends CordovaPlugin {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/pdf");
         cordova.setActivityResultCallback(this);
-        cordova.getActivity().startActivityForResult(intent, PICK_PDF_REQUEST_CODE);
+        cordova.getActivity().startActivityForResult(intent, PICK_PDF_REQUEST_CODE); // returns a result from onActivityResult()
     }
 
     private void openDownloadedFile(String filePath) {
@@ -49,7 +49,12 @@ public class OpenPdf extends CordovaPlugin {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(contentUri);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        cordova.getActivity().startActivity(intent);
+        try {
+            cordova.getActivity().startActivity(intent);  // runs the activity
+            callbackContext.success();
+        } catch (Exception e) {
+            callbackContext.error("Failed to open the file: " + e.getMessage());
+        }
     }
 
     @Override
@@ -68,6 +73,7 @@ public class OpenPdf extends CordovaPlugin {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             cordova.getActivity().startActivity(intent);
+            callbackContext.success();
         } catch (Exception e) {
             callbackContext.error("Failed to open the file: " + e.getMessage());
         }
