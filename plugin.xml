@@ -1,4 +1,4 @@
-<plugin id="cordova-plugin-android-openpdf" version="1.0.6" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-android-openfile" version="1.0.6" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>OpenFilePlugin</name>
 	<js-module name="openFile" src="www/openFile.js">
 		<clobbers target="cordova.plugins.openFile" />
